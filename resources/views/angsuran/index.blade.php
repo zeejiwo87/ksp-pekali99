@@ -270,13 +270,13 @@
 
                                                                     <div class="modal-footer">
 
-                                                                        <button type="submit" class="btn btn-success">
+                                                                        <button type="submit" class="btn btn-success btn-sm">
 
                                                                             Konfirmasi Bayar
 
                                                                         </button>
 
-                                                                        <button type="button" class="btn btn-secondary"
+                                                                        <button type="button" class="btn btn-secondary btn-sm"
                                                                             data-dismiss="modal">
 
                                                                             Batal
@@ -296,10 +296,150 @@
 
                                                 <button class="btn btn-info btn-sm" data-toggle="modal"
                                                     data-target="#detailAngsuran{{ $item->id }}">
-
                                                     Detail
-
                                                 </button>
+
+                                                <!-- Modal Detail -->
+                                                <div class="modal fade" id="detailAngsuran{{ $item->id }}"
+                                                    tabindex="-1" aria-hidden="true">
+
+                                                    <div class="modal-dialog modal-lg">
+
+                                                        <div class="modal-content">
+
+                                                            <div class="modal-header bg-secondary text-white">
+
+                                                                <h5 class="modal-title">
+                                                                    Detail Angsuran
+                                                                </h5>
+
+                                                                <button type="button" class="close text-white"
+                                                                    data-dismiss="modal">
+                                                                    <span>&times;</span>
+                                                                </button>
+
+                                                            </div>
+
+                                                            <div class="modal-body">
+
+                                                                <table class="table table-bordered">
+
+                                                                    <tr>
+                                                                        <th width="35%">Kode Pinjaman</th>
+                                                                        <td>{{ $item->pinjaman->kode_pinjaman }}</td>
+                                                                    </tr>
+
+                                                                    <tr>
+                                                                        <th>Nama Nasabah</th>
+                                                                        <td>{{ $item->pinjaman->nasabah->nama }}</td>
+                                                                    </tr>
+
+                                                                    <tr>
+                                                                        <th>No. HP</th>
+                                                                        <td>{{ $item->pinjaman->nasabah->no_hp }}</td>
+                                                                    </tr>
+
+                                                                    <tr>
+                                                                        <th>Jumlah Pinjaman</th>
+                                                                        <td>
+                                                                            Rp
+                                                                            {{ number_format($item->pinjaman->jumlah_pinjaman, 0, ',', '.') }}
+                                                                        </td>
+                                                                    </tr>
+
+                                                                    <tr>
+                                                                        <th>Bunga</th>
+                                                                        <td>{{ $item->pinjaman->bunga_persen }} %</td>
+                                                                    </tr>
+
+                                                                    <tr>
+                                                                        <th>Tenor</th>
+                                                                        <td>
+                                                                            {{ $item->pinjaman->tenor }}
+                                                                            {{ ucfirst($item->pinjaman->tenor_satuan) }}
+                                                                        </td>
+                                                                    </tr>
+
+                                                                    <tr>
+                                                                        <th>Total Pinjaman</th>
+                                                                        <td>
+                                                                            Rp
+                                                                            {{ number_format($item->pinjaman->total_pinjaman, 0, ',', '.') }}
+                                                                        </td>
+                                                                    </tr>
+
+                                                                    <tr>
+                                                                        <th>Angsuran Ke</th>
+                                                                        <td>
+                                                                            {{ $item->angsuran_ke }}
+                                                                            /
+                                                                            {{ $item->pinjaman->tenor }}
+                                                                        </td>
+                                                                    </tr>
+
+                                                                    <tr>
+                                                                        <th>Jumlah Tagihan</th>
+                                                                        <td>
+                                                                            Rp
+                                                                            {{ number_format($item->jumlah_tagihan, 0, ',', '.') }}
+                                                                        </td>
+                                                                    </tr>
+
+                                                                    <tr>
+                                                                        <th>Tanggal Jatuh Tempo</th>
+                                                                        <td>
+                                                                            {{ \Carbon\Carbon::parse($item->tanggal_jatuh_tempo)->format('d-m-Y') }}
+                                                                        </td>
+                                                                    </tr>
+
+                                                                    <tr>
+                                                                        <th>Status Angsuran</th>
+                                                                        <td>
+
+                                                                            @if ($item->status == 'lunas')
+                                                                                <span class="badge badge-success">
+                                                                                    Lunas
+                                                                                </span>
+                                                                            @elseif($item->tanggal_jatuh_tempo < now()->toDateString())
+                                                                                <span class="badge badge-danger">
+                                                                                    Tunggakan
+                                                                                </span>
+                                                                            @else
+                                                                                <span class="badge badge-warning">
+                                                                                    Belum Bayar
+                                                                                </span>
+                                                                            @endif
+
+                                                                        </td>
+                                                                    </tr>
+
+                                                                    <tr>
+                                                                        <th>Tanggal Bayar</th>
+                                                                        <td>
+                                                                            {{ $item->tanggal_bayar ? \Carbon\Carbon::parse($item->tanggal_bayar)->format('d-m-Y H:i') : '-' }}
+                                                                        </td>
+                                                                    </tr>
+
+                                                                </table>
+
+                                                            </div>
+
+                                                            <div class="modal-footer">
+
+                                                                <button type="button" class="btn btn-secondary btn-sm"
+                                                                    data-dismiss="modal">
+
+                                                                    Tutup
+
+                                                                </button>
+
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
 
                                             </td>
 
@@ -380,11 +520,11 @@
 
                     <div class="modal-footer">
 
-                        <button class="btn btn-success">
+                        <button class="btn btn-success btn-sm">
                             Simpan Pembayaran
                         </button>
 
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">
 
                             Batal
 
